@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Age Guide Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #f9f9f9; color: #333; }
+        h1, h2 { text-align: center; }
+        form { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        label { display: block; margin: 15px 0 5px; font-weight: bold; }
+        select, input[type="checkbox"] { margin-right: 10px; }
+        button { display: block; margin: 30px auto; padding: 12px 30px; background: #007bff; color: white; border: none; border-radius: 5px; font-size: 18px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        #result { margin-top: 40px; padding: 20px; border-radius: 10px; text-align: center; font-size: 24px; display: none; }
+        .rating-0 { background: #d4edda; color: #155724; }
+        .rating-7 { background: #fff3cd; color: #856404; }
+        .rating-12 { background: #d1ecf1; color: #0c5460; }
+        .rating-16 { background: #f8d7da; color: #721c24; }
+        .rating-18 { background: #f5c6cb; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>Custom Age Guide for Movies, Shows & Games</h1>
+    <p style="text-align:center;">Answer a few quick questions about the content to get a suggested age rating. This is subjective and for guidance only!</p>
+
+    <form id="ratingForm">
+        <label>1. Type of media:</label>
+        <select id="mediaType">
+            <option value="0">Movie</option>
+            <option value="0">TV Show</option>
+            <option value="0">Video Game</option>
+        </select>
+
+        <label>2. Violence/Gore level:</label>
+        <select id="violence">
+            <option value="0">None</option>
+            <option value="2">Mild (cartoon/fantasy)</option>
+            <option value="5">Moderate (realistic fights)</option>
+            <option value="10">Intense/Graphic</option>
+        </select>
+
+        <label>3. Language:</label>
+        <select id="language">
+            <option value="0">None/Mild</option>
+            <option value="3">Occasional mild swearing</option>
+            <option value="6">Frequent moderate</option>
+            <option value="10">Strong/frequent</option>
+        </select>
+
+        <label>4. Sexual Content/Nudity:</label>
+        <select id="sexual">
+            <option value="0">None</option>
+            <option value="4">Mild (kissing, innuendo)</option>
+            <option value="8">Moderate (implied)</option>
+            <option value="12">Explicit</option>
+        </select>
+
+        <label>5. Scary/Frightening Elements:</label>
+        <select id="scary">
+            <option value="0">None</option>
+            <option value="3">Mild jumps/jumpscares</option>
+            <option value="6">Intense horror</option>
+        </select>
+
+        <label>6. Drug/Alcohol Use:</label>
+        <select id="drugs">
+            <option value="0">None</option>
+            <option value="3">Implied/Mild</option>
+            <option value="7">Shown/Encouraged</option>
+        </select>
+
+        <label>7. Mature Themes (discrimination, mental health, etc.):</label>
+        <select id="themes">
+            <option value="0">None</option>
+            <option value="4">Mild discussion</option>
+            <option value="8">Heavy/Complex</option>
+        </select>
+
+        <button type="button" onclick="calculateRating()">Calculate Age Rating</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        function calculateRating() {
+            let score = 0;
+            score += parseInt(document.getElementById('violence').value);
+            score += parseInt(document.getElementById('language').value);
+            score += parseInt(document.getElementById('sexual').value);
+            score += parseInt(document.getElementById('scary').value);
+            score += parseInt(document.getElementById('drugs').value);
+            score += parseInt(document.getElementById('themes').value);
+
+            let rating, explanation, className;
+            if (score <= 5) {
+                rating = "All Ages (0+)";
+                explanation = "Suitable for everyone. No concerning content.";
+                className = "rating-0";
+            } else if (score <= 12) {
+                rating = "7+";
+                explanation = "Mild elements that might scare very young children.";
+                className = "rating-7";
+            } else if (score <= 20) {
+                rating = "12+";
+                explanation = "Moderate content; parental guidance suggested for younger teens.";
+                className = "rating-12";
+            } else if (score <= 30) {
+                rating = "16+";
+                explanation = "Mature themes and intensity; not for children.";
+                className = "rating-16";
+            } else {
+                rating = "18+";
+                explanation = "Adult content; restricted to mature audiences.";
+                className = "rating-18";
+            }
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<h2>${rating}</h2><p>${explanation}</p><p>Your total score: ${score}</p>`;
+            resultDiv.className = className;
+            resultDiv.style.display = "block";
+        }
+    </script>
+</body>
+</html>
